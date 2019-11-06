@@ -5,15 +5,21 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewContatos,textViewSms;
+    private TextView textViewContatos, textViewSms;
+    private String[] permissoes = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS};
+    public static final int MY_PERMISSIONS_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +31,20 @@ public class MainActivity extends AppCompatActivity {
         textViewSms.setText("Sem Permissão");
         solicitapermissaoContatos();
     }
+
     public void solicitapermissaoContatos() {
 
-        int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
+        List<String> permissoesRequeridas = new ArrayList<>();
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.READ_CONTACTS)) {
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        for (String appPermissao : permissoes) {
+            if (ContextCompat.checkSelfPermission(this, appPermissao) != PackageManager.PERMISSION_GRANTED) {
+
+                permissoesRequeridas.add(appPermissao);
             }
-        } else {
-            textViewContatos.setText("OK");
+        }
+        if(!permissoesRequeridas.isEmpty()){
+            ActivityCompat.requestPermissions(this, permissoesRequeridas.toArray(new String[permissoesRequeridas.size()]), MY_PERMISSIONS_REQUEST);
+
         }
     }
 }
