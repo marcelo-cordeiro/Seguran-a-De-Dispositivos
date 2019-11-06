@@ -18,7 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textViewContatos, textViewSms;
-    private String[] permissoes = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS};
+    private String[] permissoes = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_SMS, Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_EXTERNAL_STORAGE};
     public static final int MY_PERMISSIONS_REQUEST = 1;
 
     @Override
